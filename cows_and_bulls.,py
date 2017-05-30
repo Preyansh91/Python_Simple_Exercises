@@ -1,0 +1,51 @@
+#!/usr/bin/python
+
+import random
+import sys
+
+def generated_number():
+    try:
+        gen_num = random.randint(1000,9999)
+    except Exception as e:
+        print e
+    gen_num_list = list(str(gen_num))
+    return gen_num_list
+
+def compare_numbers(user_input,number_to_be_guessed):
+    bulls = 0
+    user_list = list(str(user_input))
+    #print user_list
+    compare_lists = [i for i, j in zip(user_list, number_to_be_guessed) if i == j]
+    if len(compare_lists) == 4:
+        return 1
+    else:
+        cows = len(compare_lists)
+        bulls = len([num for num in number_to_be_guessed if num in user_list]) - cows
+        print ("%d cows, %d bulls" %(cows,bulls))
+        return 0
+
+
+def main():
+    num_of_guess = 0
+    flag = 1
+    number_to_be_guessed = generated_number()
+#    print number_to_be_guessed
+    while flag:
+        try:
+            user_input = int(raw_input("Enter a 4 digit number\n"))
+            if user_input >= 1000:
+                if(compare_numbers(user_input,number_to_be_guessed)):
+                    print "you guessed the number correclty\n"
+                    flag = 0
+                    continue
+                else:
+                    print "Enter a number again\n"
+                    continue
+                    num_of_guess += 1
+            else:
+                print "Enter a valid number > 1000\n"
+                continue
+        except:
+            print "Enter a valid number > 1000\n"
+            continue
+main()
